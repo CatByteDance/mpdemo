@@ -6,35 +6,23 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 
-//@TableName("sales")       如果类名和表名不一致时可以在此处添加@TableName注释，对不一致的表名做一个映射(Mybatis-plus)
+
 public class User {
-//  对象属性要和查询的表一致
 
-
-//  如果字段不一致可以使用@TableFiled("nickname")来做映射
-    private String username;
-    private String password;
-//  对于类中存在的字段，而表中没有的话，可以设置@TableFiled(exist = false)，默认为存在
-    private String birthday;
-
-    //  @TableId用来描述主键的，如果id在数据库中定义为自增的话，可以单独用@TableId做一个说明
-//  前提是要在数据库中先设置自增：ALTER TABLE user MODIFY COLUMN id INT AUTO_INCREMENT;
-//  在数据库中设置完之后，如果启用了@TableId(type= IdType.AUTO)，则不管插入值有没有id还是说id不符合自增，都会分配一个自增id值
     @TableId(type= IdType.AUTO)
     private int id;
+    private String username;
+    private String password;
+    private String birthday;
+
+//   描述用户的所有订单, 因为orders字段在user表里是不存在的所以需要添加@TableField(exist=false)
+//   orders字段必需要自己来完成映射
+//    注意 @TableField(exist=false)只是在Mybatis-Plus中自动生成sql时有用，在使用mybatis时手写sql语句有没有无所谓
+//    @TableField(exist=false)
+    private List<Order> orders;
 
 
     // alt + insert快捷键
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "password='" + password + '\'' +
-                ", username='" + username + '\'' +
-                ", id=" + id +
-                ", birthday='" + birthday + '\'' +
-                '}';
-    }
 
     public int getId() {
         return id;
@@ -67,4 +55,15 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", id=" + id +
+                ", birthday='" + birthday + '\'' +
+                '}';
+    }
+
 }
