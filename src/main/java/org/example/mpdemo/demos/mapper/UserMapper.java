@@ -12,7 +12,7 @@ import java.util.List;
 // * 传入一个类，告诉它要操作谁，会根据这个类找到对应的表，来做CRUD，类的名字要和表的名字保持一致
 // */
 @Mapper
-public interface UserMapper extends BaseMapper<User> {
+public interface UserMapper {
 
 //  查询用户及其所有订单，只能自己来实现他们之间的映射关系了，Mybatis-plus只是针对单表
     @Select("select * from t_user")
@@ -26,9 +26,12 @@ public interface UserMapper extends BaseMapper<User> {
                     @Result(column = "birthday", property = "birthday"),
 
                     // 对orders进行赋值
-//
+//                  使用user表里的id字段来映射orders，其中orders因为在user中没有，需要进行定义
+//                  List.class表示orders是一个List集合
                     @Result(column = "id", property = "orders", javaType = List.class,
-                            many=@Many(select = "com.example.mpdemo.mapper")
+//                          有用户id之后要查询所有订单，借助OrderMapper，跳转到了OrderMapper里的selectByUid(调用)
+//                          many表示一个用户有多个订单，一对多的关系，会将"id"传给selectByUid方法的参数uid,最后返回的结果就交给了orders
+                            many=@Many(select = "com.example.mpdemo.demos.mapper.OrderMapper.selectByUid")
                     )
             }
     )

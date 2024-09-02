@@ -17,5 +17,5 @@ public class UserController {
     UserMapper userMapper;
 
     @GetMapping("user/findAll")
-    public List<User> find(){return userMapper.selectAllUserAndOrders();}
+    public List<User> findAll(){return userMapper.selectAllUserAndOrders();}
 }

@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 
+import java.util.List;
 
+@TableName("t_user")
 public class User {
 
     @TableId(type= IdType.AUTO)
@@ -14,6 +16,7 @@ public class User {
     private String username;
     private String password;
     private String birthday;
+
 
 //   描述用户的所有订单, 因为orders字段在user表里是不存在的所以需要添加@TableField(exist=false)
 //   orders字段必需要自己来完成映射

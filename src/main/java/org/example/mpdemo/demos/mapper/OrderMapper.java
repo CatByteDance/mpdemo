@@ -2,12 +2,16 @@ package org.example.mpdemo.demos.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.*;
+import org.example.mpdemo.demos.entity.Order;
 import org.example.mpdemo.demos.entity.User;
 
-@Mapper
-public interface OrderMapper extends BaseMapper <Order> {
+import java.util.List;
 
-    @Select("select * form t_order where uid = #{uid}")
+@Mapper
+public interface OrderMapper{
+
+//  对外界提供了selectByUid方法，即根据用户的uid查找用户订单
+    @Select("select * from t_order where uid = #{uid}")
     List<Order> selectByUid(int uid);
 
 
@@ -18,7 +22,7 @@ public interface OrderMapper extends BaseMapper <Order> {
             @Result(column = "ordertime", property = "ordertime"),
             @Result(column = "total", property = "totlal"),
             @Result(column = "uid", property = "user", javaType = User.class,
-                one=@One(select = "com.example.mpdemo.mapper.UserMapper.selectById")
+                one=@One(select = "com.example.mpdemo.demo.mapper.UserMapper.selectById")
             )
     })
     List<Order> selectAllOrdersAndUser();
